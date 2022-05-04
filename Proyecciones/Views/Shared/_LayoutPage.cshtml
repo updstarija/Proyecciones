@@ -1,0 +1,271 @@
+﻿@using Proyecciones.Models;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#1A5276" />
+    <title>Proyecciones UPDS-Tarija</title>
+    <link rel="icon" type="image/png" href="~/Content/img/logo.jpg" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/css/all.min.css" rel="stylesheet" />
+    <link href="~/style.css" rel="stylesheet" />
+    <link href="~/Content/css/estilo.css" rel="stylesheet" />
+</head>
+<body>
+    @if (User.Identity.IsAuthenticated)
+    {
+        SAADSTJEntities db = new SAADSTJEntities();
+        ProyeccionEntities dbs = new ProyeccionEntities();
+        Persona p = db.Persona.SingleOrDefault(x => x.DocumentoIdentidad == User.Identity.Name);
+        Usuario userAdm = dbs.Usuario.SingleOrDefault(x => x.usuario1 == User.Identity.Name);
+        //Usuario uj = dbs.Usuario.SingleOrDefault(x => x.usuario1 == User.Identity.Name && (x.idrol == 1 || x.idrol == 4 || x.idrol == 5 || x.idrol == 7 || x.idrol == 8));
+        //Usuario urc = dbs.Usuario.SingleOrDefault(x => x.usuario1 == User.Identity.Name && (x.idrol == 6));
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background: #1A5276;">
+            <div class="container-fluid">
+                @if (p != null)
+                {
+                    <a class="navbar-brand text-white" href="@Url.Action("Index","HomeEstudiante")"><i class="fas fa-home"></i></a>
+                }
+                else
+                {
+                    if (dbs.RolPermisos.SingleOrDefault(x => x.idRol == userAdm.idRol && x.Permisos.nombre == "HOME") != null)
+                    {
+                        <a class="navbar-brand text-white" href="@Url.Action("Index","Home")"><i class="fas fa-home"></i></a>
+                    }
+                    if (dbs.RolPermisos.SingleOrDefault(x => x.idRol == userAdm.idRol && x.Permisos.nombre == "HOMERYC") != null)
+                    {
+                        <a class="navbar-brand text-white" href="@Url.Action("Index","HomeRyC")"><i class="fas fa-home"></i></a>
+                    }
+                }
+                <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        @if (p != null)
+                        {
+                            var pe = db.InscripcionCarrera.Where(x => x.IdEstudiante == p.Id && x.PlanEstudio.IdEstadoPlan == 0 && x.PlanEstudio.IdModeloEstudio == 2).ToList();
+                            @*Traspaso traspaso = db.Traspaso.OrderByDescending(x => x.FechaRegistro).FirstOrDefault(x => x.InscripcionCarrera.Estudiante.Id == p.Id);
+                            if (traspaso == null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="@Url.Action("Index","Proyeccion")"><i class="fas fa-newspaper"></i> Proyección</a>
+                                </li>
+                            }*@
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="@Url.Action("Index","Proyeccion")"><i class="fas fa-newspaper"></i> Proyección</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#" data-bs-toggle="modal" data-bs-target="#ModalRecuerdeQue"><i class="fas fa-hand-point-right"></i> Normativa</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-info-circle"></i> Ayuda
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" style="background: #1A5276">
+                                    <li><a class="dropdown-item text-white" href="~/Content/pdf/Tutorial de proyecciones.pdf" target="_blank"><i class="fas fa-file-pdf"></i>  Tutorial</a></li>
+                                    <li><a class="dropdown-item text-white" data-bs-toggle="modal" data-bs-target="#modalVideo" href="#"><i class="fas fa-file-video"></i>  Video Tutorial</a></li>
+                                    @if (pe != null)
+                                    {
+                                        foreach (var item in pe)
+                                        {
+                                            string nombreMalla = item.PlanEstudio.Nombre;
+                                            string urlmalla = "/Proyecciones/Content/pdf/mallas/" + item.IdPlanEstudio + ".pdf";
+                                            <li><a class="dropdown-item text-white" href="@urlmalla" target="_blank"><i class="fas fa-file-powerpoint"></i>  Malla Curricular de @nombreMalla</a></li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            if (dbs.RolPermisos.SingleOrDefault(x => x.idRol == userAdm.idRol && x.Permisos.nombre == "MODULO") != null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="@Url.Action("Index", "Modulo")"><i class="fas fa-calendar-alt"></i> Ofertas</a>
+                                </li>
+                            }
+                            if (dbs.RolPermisos.SingleOrDefault(x => x.idRol == userAdm.idRol && x.Permisos.nombre == "ADMPROYECCION") != null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="@Url.Action("Index", "AdmProyeccion")"><i class="fas fa-newspaper"></i> Oferta Semestral</a>
+                                </li>
+                            }
+                            if (dbs.RolPermisos.SingleOrDefault(x => x.idRol == userAdm.idRol && x.Permisos.nombre == "BUSCAROFERTA") != null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="@Url.Action("BuscarOferta", "AdmProyeccion")"><i class="fas fa-search"></i> Buscar Oferta</a>
+                                </li>
+                            }
+                            if (dbs.RolPermisos.SingleOrDefault(x => x.idRol == userAdm.idRol && x.Permisos.nombre == "VERIFICACIONPROYECCION") != null)
+                            {
+                                int contHomo = 0;
+                                if (dbs.RolPermisos.SingleOrDefault(x => x.idRol == userAdm.idRol && x.Permisos.nombre == "FACULTAD DE CIENCIAS JURÍDICAS") != null)
+                                {
+                                    var facultadJuri = db.PlanEstudio.OrderBy(x => x.Nombre).Where(x => x.IdModeloEstudio == 2 && x.Carrera.DireccionArea.Facultad.Nombre == "FACULTAD DE CIENCIAS JURÍDICAS").ToList();
+                                    foreach (var item in facultadJuri)
+                                    {
+                                        contHomo = contHomo + dbs.Boleta.Count(x => x.estado == 3 && x.idCarrera == item.Id);
+                                    }
+                                }
+                                else if (dbs.RolPermisos.SingleOrDefault(x => x.idRol == userAdm.idRol && x.Permisos.nombre == "TECNOLOGIA") != null)
+                                {
+                                    var facultadTec = db.PlanEstudio.OrderBy(x => x.Nombre).Where(x => x.IdModeloEstudio == 2 && x.Carrera.DireccionArea.Facultad.Nombre == "TECNOLOGIA").ToList();
+                                    foreach (var item in facultadTec)
+                                    {
+                                        contHomo = contHomo + dbs.Boleta.Count(x => x.estado == 3 && x.idCarrera == item.Id);
+                                    }
+                                }
+                                else if (dbs.RolPermisos.SingleOrDefault(x => x.idRol == userAdm.idRol && x.Permisos.nombre == "FACULTAD DE CIENCIAS EMPRESARIALES") != null)
+                                {
+                                    var FacultadEmp = db.PlanEstudio.OrderBy(x => x.Nombre).Where(x => x.IdModeloEstudio == 2 && x.Carrera.DireccionArea.Facultad.Nombre == "FACULTAD DE CIENCIAS EMPRESARIALES").ToList();
+                                    foreach (var item in FacultadEmp)
+                                    {
+                                        contHomo = contHomo + dbs.Boleta.Count(x => x.estado == 3 && x.idCarrera == item.Id);
+                                    }
+                                }
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-eye"></i> Proyecciones
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink" style="background: #1A5276">
+                                        @if (dbs.RolPermisos.SingleOrDefault(x => x.idRol == userAdm.idRol && x.Permisos.nombre == "REVISARPROYECCION") != null)
+                                        {
+                                            <li>
+                                                <a class="dropdown-item text-white position-relative" href="@Url.Action("ARevisar","VerificacionProyeccion")">
+                                                    <i class="far fa-circle"></i>  Pendientes
+                                                    @if (contHomo > 0)
+                                                    {
+                                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                            @contHomo
+                                                        </span>
+                                                    }
+                                                </a>
+                                            </li>
+                                        }
+                                        <li><a class="dropdown-item text-white" href="@Url.Action("Index","VerificacionProyeccion")"><i class="far fa-circle"></i>  Estudiantes Regulares</a></li>
+                                        <li><a class="dropdown-item text-white" href="@Url.Action("Homologados","VerificacionProyeccion")"><i class="far fa-circle"></i>  Estudiantes Homologados</a></li>
+                                        <li><a class="dropdown-item text-white" href="@Url.Action("TotalEstudiantes","VerificacionProyeccion")"><i class="far fa-circle"></i>  Total de Estudiantes</a></li>
+                                    </ul>
+                                </li>
+                                @*<li class="nav-item">
+                                    <a class="nav-link text-white" href="@Url.Action("Index", "Reporte")"><i class="fas fa-file-alt"></i> Reportes</a>
+                                </li>*@
+                            }
+                        }
+                    </ul>
+                    @if (p != null)
+                    {
+                        <span class="navbar-text text-white">
+                            <i class="fas fa-user-graduate"></i> @p.Nombre @p.ApellidoPaterno @p.ApellidoMaterno
+                        </span>
+                    }
+                    @if (userAdm != null)
+                    {
+                        <span class="navbar-text text-white">
+                            <i class="fas fa-user"></i> @userAdm.nombre @userAdm.apaterno @userAdm.amaterno
+                        </span>
+                    }
+                    <ul></ul>
+                    <form class="form-inline my-2 my-lg-0" method="post" action="@Url.Action("Logout","Login")">
+                        <button class="btn btn-outline-light" type="submit"><i class="fas fa-sign-out-alt"></i> Salir</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <!--Modal Video-->
+        <div class="modal fade" id="modalVideo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Video Tutorial</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/Ky4SxNBAmPY" title="YouTube video" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Normativa-->
+        <div class="modal fade" id="ModalRecuerdeQue" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Normativa:</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <img width="380" src="~/Content/img/undraw_reading_list_4boi.png" />
+                            </div>
+                            <div class="col-sm-6">
+                                <ol>
+                                    <li>Debes realizar tu boleta de proyección antes de programar tus materias.</li>
+                                    <li>Puedes programar como máximo 2 materias por módulo.</li>
+                                    <li>Puedes programar materias de tu malla curricular que se oferten en otras carreras.</li>
+                                    <li>En el módulo de invierno/ verano, puedes cursar una materia pendiente, recuperar una materia reprobada o llevar la correlativa.</li>
+                                    <li>Para programar materias electivas debes tener todo aprobado hasta el quinto semestre inclusive.</li>
+                                    <li>Puedes programar hasta 8 materias por semestre y la 9º solo como verano/invierno.</li>
+                                    <li>Casos especiales, como homologación, convalidación y estudiantes por objetivos deben comunicarse con su Jefe de Carreas o Decano de tu facultad.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+        <script src="~/Content/js/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+        <script src="~/Content/js/all.min.js"></script>
+        <script src="~/cute-alert.js"></script>
+        <script src="~/Content/js/validacion.js"></script>
+        <script src="~/Content/js/moment.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <div class="container pt-5">
+            <div class="pt-5 pb-5">
+                @if (p != null)
+                {
+                    Traspaso traspasoFinalizado = db.Traspaso.OrderByDescending(x => x.FechaRegistro).FirstOrDefault(x => x.InscripcionCarrera.Estudiante.Id == p.Id && x.Paso < 3);
+                    if (traspasoFinalizado != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i> Comuníquese con decanatura para concluir con su trámite de traspaso.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    @*Traspaso traspaso2 = db.Traspaso.OrderByDescending(x => x.FechaRegistro).FirstOrDefault(x => x.InscripcionCarrera.Estudiante.Id == p.Id);
+                    if (traspaso2 != null)
+                    {
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i> Debe apersonarse a jefatura de carreras para realizar su proyección semestral.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }*@
+                }
+                @RenderBody()
+            </div>
+        </div>
+    }
+</body>
+</html>
+<script>
+    function Toast(tipo, msj) {
+        cuteToast({
+            type: tipo,
+            message: msj,
+            timer: 5000
+        });
+    }
+</script>

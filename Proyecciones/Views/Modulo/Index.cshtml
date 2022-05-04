@@ -1,0 +1,300 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<!--Interfaz Principal-->
+<h4>Ofertas</h4>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table table-responsive-sm">
+                    <table id="tabla" class="table table-striped table-bordered display" style="width:100%"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Oferta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-sm">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6 mt-2">
+                                <input type="text" id="id" name="id" class="form-control" hidden="hidden">
+                                <label>Nombre de la Oferta:</label>
+                                <input type="text" class="form-control" placeholder="Nombre de Oferta" id="nombre" name="nombre" disabled/>
+                            </div>
+                            <div class="col-sm-6 mt-2">
+                                <label>Módulo:</label>
+                                <select onchange="CargarNombreOferta()" id="numModulo" class="form-select">
+                                    <option  selected value="0">Seleccionar</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 mt-2">
+                                <label>Semestre:</label>
+                                <select onchange="CargarNombreOferta()" id="semestre" class="form-select">
+                                    <option selected value="0">Seleccionar</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 mt-2">
+                                <label>Gestión:</label>
+                                <input type="number" class="form-control" placeholder="Gestión" id="gestion" name="gestion" onkeyup="CargarNombreOferta()"/>
+                                <input type="hidden" class="form-control" id="estado" name="estado" />
+                            </div>
+                            <div class="col-sm-12 mt-2">
+                                <label>Mes al que pertenece la oferta:</label>
+                                <select id="idMes" class="form-select"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-ban"></i> Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()"><i class="fas fa-save"></i> Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        Listar();
+        CargarMes();
+    });
+
+    //Tabla
+    var tabla = $('#tabla').DataTable({
+        columns:
+            [
+                { title: "#", width: '5%' },
+                { title: "Nombre de Oferta", width: '24%' },
+                { title: "Módulo", width: '12%' },
+                { title: "Semestre", width: '12%' },
+                { title: "Gestión", width: '12%' },
+                { title: "Estado", width: '20%' },
+                {
+                    title: '<button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="Insertar()" data-bs-target="#exampleModal"><i class="fas fa-plus"></i> Nuevo</button>', width: '15%' }
+            ],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+    //Listar
+    function Listar()
+    {
+        $.getJSON('@Url.Action("Listar", "Modulo")', (data) => {
+            tabla.destroy();
+            dataset = data;
+            tabla = $('#tabla').DataTable({
+                columns:
+                    [
+                        { title: "#", width: '5%' },
+                        { title: "Nombre de Oferta", width: '24%' },
+                        { title: "Módulo", width: '12%' },
+                        { title: "Semestre", width: '12%' },
+                        { title: "Gestión", width: '12%' },
+                        { title: "Mes", width: '20%' },
+                        { title: '<button type="button" class="btn btn-primary" data-bs-toggle="modal" onclick="Insertar()" data-bs-target="#exampleModal"><i class="fas fa-plus"></i> Nuevo</button>', width: '15%' }
+                    ],
+                data: dataset,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                }
+            });
+        });
+    }
+
+    //Cargar Combo del Mes
+    function CargarMes() {
+         $.getJSON('@Url.Action("CargarMes", "Modulo")', function (o) {
+             $("#idMes").html("");
+             var opcion = "<option value='0'>Seleccionar</option>";
+             $("#idMes").append(opcion);
+             for (var i = 0; i < o.length; i++) {
+                opcion = "<option value=" + o[i].Id + ">" + o[i].Nombre + "</option>";
+                $("#idMes").append(opcion);
+            };
+        });
+    }
+
+    //Insertar
+    function Insertar()
+    {
+        $("#id").val("");
+        $("#nombre").val("");
+        $("#numModulo").val(0);
+        $("#semestre").val(0);
+        $("#gestion").val("");
+        $("#estado").val("True");
+        CargarMes();
+    }
+
+    //llenar nombre de modulo o Oferta
+    function CargarNombreOferta()
+    {
+        m = $("#numModulo").val();
+        s = $("#semestre").val();
+        g = $("#gestion").val();
+        if (m == 0 && s == 0 && g == null)
+        {
+
+            $("#nombre").val("");
+        }
+        if (m != 0 && s == 0)
+        {
+
+            $("#nombre").val(m+".");
+        }
+        if (m != 0 && s != 0 && g == null) {
+
+            $("#nombre").val(m + "." + s);
+        }
+        if (m != 0 && s != 0 && g != null)
+        {
+
+            $("#nombre").val(m + "." + s + "." + g);
+        }
+
+    }
+
+    //Editar
+    function Editar(id) {
+        $.getJSON('@Url.Action("Mostrar", "Modulo")', { id: id }, (data) => {
+            $("#id").val(data.id);
+            $("#nombre").val(data.nombre);
+            $("#numModulo").val(data.numModulo);
+            $("#semestre").val(data.semestre);
+            $("#gestion").val(data.gestion);
+            $("#estado").val(data.estado);
+            $.getJSON('@Url.Action("CargarMes", "Modulo")', function (o) {
+                 $("#idMes").html("");
+                var opcion = "<option value='0'>Seleccionar</option>";
+                 $("#idMes").append(opcion);
+                for (var i = 0; i < o.length; i++) {
+                    if (o[i].Id == data.idMes) {
+                        opcion = "<option value=" + o[i].Id + " selected>" + o[i].Nombre + "</option>";
+                    } else {
+                        opcion = "<option value=" + o[i].Id + ">" + o[i].Nombre + "</option>";
+                    }
+                    $("#idMes").append(opcion);
+                }
+            });
+        });
+    }
+
+    //Guardar
+    function Guardar()
+    {
+        var obj =
+        {
+            id: $("#id").val(),
+            nombre: $("#nombre").val(),
+            numModulo: $("#numModulo").val(),
+            semestre: $("#semestre").val(),
+            gestion: $("#gestion").val(),
+            estado: $("#estado").val(),
+            idMes: $("#idMes").val(),
+        }
+        $.ajax({
+            url: '@Url.Action("Guardar", "Modulo")',
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(obj),
+            success: function (s) {
+                switch (s.Tipo) {
+                    case 1:
+                        Listar();
+                        Toast("success", s.Msj);
+                        $("#exampleModal").modal('hide');
+                        break;
+                    case 2:
+                        Toast("warning", s.Msj);
+                        break;
+                    case 3:
+                        Toast("error", s.Msj);
+                        break;
+                };
+            }
+        });
+    }
+
+    //Desactivar
+    function Desactivar(id) {
+        cuteAlert({
+            type: "question",
+            title: "Desactivar",
+            message: "¿Está seguro de que desea desactivar el módulo?",
+            confirmText: "Aceptar",
+            cancelText: "Cancelar"
+        }).then((e) => {
+            if (e == ("confirm")) {
+                $.getJSON('@Url.Action("Desactivar", "Modulo")', { Id: id }, function (s) {
+                    switch (s.Tipo) {
+                        case 1:
+                            Listar();
+                            Toast("success", s.Msj);
+                            break;
+                        case 2:
+                            Toast("warning", s.Msj);
+                            break;
+                        case 3:
+                            Toast("error", s.Msj);
+                            break;
+                    };
+                });
+            }
+        })
+    }
+
+    //Activar
+    function Activar(id)
+    {
+        cuteAlert({
+            type: "question",
+            title: "Activar",
+            message: "¿Está seguro de que desea activar el módulo?",
+            confirmText: "Aceptar",
+            cancelText: "Cancelar"
+        }).then((e) => {
+            if (e == ("confirm")) {
+                $.getJSON('@Url.Action("Activar", "Modulo")', { Id: id }, function (s) {
+                    switch (s.Tipo) {
+                        case 1:
+                            Listar();
+                            Toast("success", s.Msj);
+                            break;
+                        case 2:
+                            Toast("warning", s.Msj);
+                            break;
+                        case 3:
+                            Toast("error", s.Msj);
+                            break;
+                    };
+                });
+            }
+        })
+    }
+</script>
+

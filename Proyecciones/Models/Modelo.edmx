@@ -1,0 +1,578 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ProyeccionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdmMateria">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idTurno" Type="int" Nullable="false" />
+          <Property Name="idAdmProyeccion" Type="int" Nullable="false" />
+          <Property Name="idMateria" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AdmProyeccion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idCarrera" Type="int" Nullable="false" />
+          <Property Name="idModulo" Type="int" Nullable="false" />
+          <Property Name="idSemestre" Type="int" Nullable="false" />
+          <Property Name="estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Boleta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fecha" Type="date" Nullable="false" />
+          <Property Name="estado" Type="int" Nullable="false" />
+          <Property Name="idEstudiante" Type="int" Nullable="false" />
+          <Property Name="idCarrera" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="respuesta" Type="varchar" MaxLength="500" />
+          <Property Name="numReferencia" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="BoletaDetalle">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idBoleta" Type="int" Nullable="false" />
+          <Property Name="idAdmMateria" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Modulo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="estado" Type="bit" />
+          <Property Name="semestre" Type="int" />
+          <Property Name="numModulo" Type="int" />
+          <Property Name="gestion" Type="int" />
+          <Property Name="idMes" Type="int" />
+        </EntityType>
+        <EntityType Name="Permisos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="estado" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RolPermisos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idRol" Type="int" Nullable="false" />
+          <Property Name="idPermisos" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="apaterno" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="amaterno" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="usuario" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="contraseña" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="estado" Type="bit" Nullable="false" />
+          <Property Name="idRol" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__BoletaDet__idAdm__46E78A0C">
+          <End Role="AdmMateria" Type="Self.AdmMateria" Multiplicity="1" />
+          <End Role="BoletaDetalle" Type="Self.BoletaDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdmMateria">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="BoletaDetalle">
+              <PropertyRef Name="idAdmMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BoletaDet__idBol__47DBAE45">
+          <End Role="Boleta" Type="Self.Boleta" Multiplicity="1" />
+          <End Role="BoletaDetalle" Type="Self.BoletaDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boleta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="BoletaDetalle">
+              <PropertyRef Name="idBoleta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RolPermis__idPer__628FA481">
+          <End Role="Permisos" Type="Self.Permisos" Multiplicity="1" />
+          <End Role="RolPermisos" Type="Self.RolPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permisos">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RolPermisos">
+              <PropertyRef Name="idPermisos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RolPermis__idRol__6383C8BA">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="RolPermisos" Type="Self.RolPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RolPermisos">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__idRol__6477ECF3">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdmMateria_AdmProyeccion">
+          <End Role="AdmProyeccion" Type="Self.AdmProyeccion" Multiplicity="1" />
+          <End Role="AdmMateria" Type="Self.AdmMateria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdmProyeccion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AdmMateria">
+              <PropertyRef Name="idAdmProyeccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdmProyeccion_Modulo">
+          <End Role="Modulo" Type="Self.Modulo" Multiplicity="1" />
+          <End Role="AdmProyeccion" Type="Self.AdmProyeccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modulo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AdmProyeccion">
+              <PropertyRef Name="idModulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProyeccionModelStoreContainer">
+          <EntitySet Name="AdmMateria" EntityType="Self.AdmMateria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdmProyeccion" EntityType="Self.AdmProyeccion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Boleta" EntityType="Self.Boleta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BoletaDetalle" EntityType="Self.BoletaDetalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Modulo" EntityType="Self.Modulo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permisos" EntityType="Self.Permisos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RolPermisos" EntityType="Self.RolPermisos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BoletaDet__idAdm__46E78A0C" Association="Self.FK__BoletaDet__idAdm__46E78A0C">
+            <End Role="AdmMateria" EntitySet="AdmMateria" />
+            <End Role="BoletaDetalle" EntitySet="BoletaDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BoletaDet__idBol__47DBAE45" Association="Self.FK__BoletaDet__idBol__47DBAE45">
+            <End Role="Boleta" EntitySet="Boleta" />
+            <End Role="BoletaDetalle" EntitySet="BoletaDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RolPermis__idPer__628FA481" Association="Self.FK__RolPermis__idPer__628FA481">
+            <End Role="Permisos" EntitySet="Permisos" />
+            <End Role="RolPermisos" EntitySet="RolPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RolPermis__idRol__6383C8BA" Association="Self.FK__RolPermis__idRol__6383C8BA">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="RolPermisos" EntitySet="RolPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__idRol__6477ECF3" Association="Self.FK__Usuario__idRol__6477ECF3">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdmMateria_AdmProyeccion" Association="Self.FK_AdmMateria_AdmProyeccion">
+            <End Role="AdmProyeccion" EntitySet="AdmProyeccion" />
+            <End Role="AdmMateria" EntitySet="AdmMateria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdmProyeccion_Modulo" Association="Self.FK_AdmProyeccion_Modulo">
+            <End Role="Modulo" EntitySet="Modulo" />
+            <End Role="AdmProyeccion" EntitySet="AdmProyeccion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProyeccionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AdmMateria">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idTurno" Type="Int32" Nullable="false" />
+          <Property Name="idAdmProyeccion" Type="Int32" Nullable="false" />
+          <Property Name="idMateria" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BoletaDetalle" Relationship="Self.FK__BoletaDet__idAdm__46E78A0C" FromRole="AdmMateria" ToRole="BoletaDetalle" />
+          <NavigationProperty Name="AdmProyeccion" Relationship="Self.FK_AdmMateria_AdmProyeccion" FromRole="AdmMateria" ToRole="AdmProyeccion" />
+        </EntityType>
+        <EntityType Name="AdmProyeccion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idCarrera" Type="Int32" Nullable="false" />
+          <Property Name="idModulo" Type="Int32" Nullable="false" />
+          <Property Name="idSemestre" Type="Int32" Nullable="false" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AdmMateria" Relationship="Self.FK_AdmMateria_AdmProyeccion" FromRole="AdmProyeccion" ToRole="AdmMateria" />
+          <NavigationProperty Name="Modulo" Relationship="Self.FK_AdmProyeccion_Modulo" FromRole="AdmProyeccion" ToRole="Modulo" />
+        </EntityType>
+        <EntityType Name="Boleta">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="estado" Type="Int32" Nullable="false" />
+          <Property Name="idEstudiante" Type="Int32" Nullable="false" />
+          <Property Name="idCarrera" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="respuesta" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="numReferencia" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BoletaDetalle" Relationship="Self.FK__BoletaDet__idBol__47DBAE45" FromRole="Boleta" ToRole="BoletaDetalle" />
+        </EntityType>
+        <EntityType Name="BoletaDetalle">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idBoleta" Type="Int32" Nullable="false" />
+          <Property Name="idAdmMateria" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AdmMateria" Relationship="Self.FK__BoletaDet__idAdm__46E78A0C" FromRole="BoletaDetalle" ToRole="AdmMateria" />
+          <NavigationProperty Name="Boleta" Relationship="Self.FK__BoletaDet__idBol__47DBAE45" FromRole="BoletaDetalle" ToRole="Boleta" />
+        </EntityType>
+        <EntityType Name="Modulo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado" Type="Boolean" />
+          <Property Name="semestre" Type="Int32" />
+          <Property Name="numModulo" Type="Int32" />
+          <Property Name="gestion" Type="Int32" />
+          <Property Name="idMes" Type="Int32" />
+          <NavigationProperty Name="AdmProyeccion" Relationship="Self.FK_AdmProyeccion_Modulo" FromRole="Modulo" ToRole="AdmProyeccion" />
+        </EntityType>
+        <EntityType Name="Permisos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="RolPermisos" Relationship="Self.FK__RolPermis__idPer__628FA481" FromRole="Permisos" ToRole="RolPermisos" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="RolPermisos" Relationship="Self.FK__RolPermis__idRol__6383C8BA" FromRole="Rol" ToRole="RolPermisos" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK__Usuario__idRol__6477ECF3" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="RolPermisos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idRol" Type="Int32" Nullable="false" />
+          <Property Name="idPermisos" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Permisos" Relationship="Self.FK__RolPermis__idPer__628FA481" FromRole="RolPermisos" ToRole="Permisos" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK__RolPermis__idRol__6383C8BA" FromRole="RolPermisos" ToRole="Rol" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apaterno" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="amaterno" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="usuario1" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contraseña" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
+          <Property Name="idRol" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK__Usuario__idRol__6477ECF3" FromRole="Usuario" ToRole="Rol" />
+        </EntityType>
+        <Association Name="FK__BoletaDet__idAdm__46E78A0C">
+          <End Role="AdmMateria" Type="Self.AdmMateria" Multiplicity="1" />
+          <End Role="BoletaDetalle" Type="Self.BoletaDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdmMateria">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="BoletaDetalle">
+              <PropertyRef Name="idAdmMateria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdmMateria_AdmProyeccion">
+          <End Role="AdmProyeccion" Type="Self.AdmProyeccion" Multiplicity="1" />
+          <End Role="AdmMateria" Type="Self.AdmMateria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdmProyeccion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AdmMateria">
+              <PropertyRef Name="idAdmProyeccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AdmProyeccion_Modulo">
+          <End Role="Modulo" Type="Self.Modulo" Multiplicity="1" />
+          <End Role="AdmProyeccion" Type="Self.AdmProyeccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modulo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AdmProyeccion">
+              <PropertyRef Name="idModulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BoletaDet__idBol__47DBAE45">
+          <End Role="Boleta" Type="Self.Boleta" Multiplicity="1" />
+          <End Role="BoletaDetalle" Type="Self.BoletaDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Boleta">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="BoletaDetalle">
+              <PropertyRef Name="idBoleta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RolPermis__idPer__628FA481">
+          <End Role="Permisos" Type="Self.Permisos" Multiplicity="1" />
+          <End Role="RolPermisos" Type="Self.RolPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permisos">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RolPermisos">
+              <PropertyRef Name="idPermisos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RolPermis__idRol__6383C8BA">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="RolPermisos" Type="Self.RolPermisos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RolPermisos">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__idRol__6477ECF3">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProyeccionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AdmMateria" EntityType="Self.AdmMateria" />
+          <EntitySet Name="AdmProyeccion" EntityType="Self.AdmProyeccion" />
+          <EntitySet Name="Boleta" EntityType="Self.Boleta" />
+          <EntitySet Name="BoletaDetalle" EntityType="Self.BoletaDetalle" />
+          <EntitySet Name="Modulo" EntityType="Self.Modulo" />
+          <EntitySet Name="Permisos" EntityType="Self.Permisos" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="RolPermisos" EntityType="Self.RolPermisos" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK__BoletaDet__idAdm__46E78A0C" Association="Self.FK__BoletaDet__idAdm__46E78A0C">
+            <End Role="AdmMateria" EntitySet="AdmMateria" />
+            <End Role="BoletaDetalle" EntitySet="BoletaDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdmMateria_AdmProyeccion" Association="Self.FK_AdmMateria_AdmProyeccion">
+            <End Role="AdmProyeccion" EntitySet="AdmProyeccion" />
+            <End Role="AdmMateria" EntitySet="AdmMateria" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AdmProyeccion_Modulo" Association="Self.FK_AdmProyeccion_Modulo">
+            <End Role="Modulo" EntitySet="Modulo" />
+            <End Role="AdmProyeccion" EntitySet="AdmProyeccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BoletaDet__idBol__47DBAE45" Association="Self.FK__BoletaDet__idBol__47DBAE45">
+            <End Role="Boleta" EntitySet="Boleta" />
+            <End Role="BoletaDetalle" EntitySet="BoletaDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RolPermis__idPer__628FA481" Association="Self.FK__RolPermis__idPer__628FA481">
+            <End Role="Permisos" EntitySet="Permisos" />
+            <End Role="RolPermisos" EntitySet="RolPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RolPermis__idRol__6383C8BA" Association="Self.FK__RolPermis__idRol__6383C8BA">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="RolPermisos" EntitySet="RolPermisos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__idRol__6477ECF3" Association="Self.FK__Usuario__idRol__6477ECF3">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProyeccionModelStoreContainer" CdmEntityContainer="ProyeccionEntities">
+          <EntitySetMapping Name="AdmMateria">
+            <EntityTypeMapping TypeName="ProyeccionModel.AdmMateria">
+              <MappingFragment StoreEntitySet="AdmMateria">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idTurno" ColumnName="idTurno" />
+                <ScalarProperty Name="idAdmProyeccion" ColumnName="idAdmProyeccion" />
+                <ScalarProperty Name="idMateria" ColumnName="idMateria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdmProyeccion">
+            <EntityTypeMapping TypeName="ProyeccionModel.AdmProyeccion">
+              <MappingFragment StoreEntitySet="AdmProyeccion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idCarrera" ColumnName="idCarrera" />
+                <ScalarProperty Name="idModulo" ColumnName="idModulo" />
+                <ScalarProperty Name="idSemestre" ColumnName="idSemestre" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Boleta">
+            <EntityTypeMapping TypeName="ProyeccionModel.Boleta">
+              <MappingFragment StoreEntitySet="Boleta">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="idEstudiante" ColumnName="idEstudiante" />
+                <ScalarProperty Name="idCarrera" ColumnName="idCarrera" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="respuesta" ColumnName="respuesta" />
+                <ScalarProperty Name="numReferencia" ColumnName="numReferencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BoletaDetalle">
+            <EntityTypeMapping TypeName="ProyeccionModel.BoletaDetalle">
+              <MappingFragment StoreEntitySet="BoletaDetalle">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idBoleta" ColumnName="idBoleta" />
+                <ScalarProperty Name="idAdmMateria" ColumnName="idAdmMateria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Modulo">
+            <EntityTypeMapping TypeName="ProyeccionModel.Modulo">
+              <MappingFragment StoreEntitySet="Modulo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="semestre" ColumnName="semestre" />
+                <ScalarProperty Name="numModulo" ColumnName="numModulo" />
+                <ScalarProperty Name="gestion" ColumnName="gestion" />
+                <ScalarProperty Name="idMes" ColumnName="idMes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permisos">
+            <EntityTypeMapping TypeName="ProyeccionModel.Permisos">
+              <MappingFragment StoreEntitySet="Permisos">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="ProyeccionModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolPermisos">
+            <EntityTypeMapping TypeName="ProyeccionModel.RolPermisos">
+              <MappingFragment StoreEntitySet="RolPermisos">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+                <ScalarProperty Name="idPermisos" ColumnName="idPermisos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="ProyeccionModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apaterno" ColumnName="apaterno" />
+                <ScalarProperty Name="amaterno" ColumnName="amaterno" />
+                <ScalarProperty Name="usuario1" ColumnName="usuario" />
+                <ScalarProperty Name="contraseña" ColumnName="contraseña" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "Homologados";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+<!--Interfaz Principal-->
+<h4>Proyecciones de Estudiantes Homologados</h4>
+<div class="card mb-3">
+    <div class="card-body" style="height:500px">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="cargando" class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div id="cargado" class="table table-responsive-sm visually-hidden">
+                    <table id="tabla" class="table table-striped table-bordered display" style="width:100%"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalBoletaEstudiante" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Visualizar Boleta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-info text-center visually-hidden" role="alert" id="alertaDescripcion"></div>
+                        <div class="table-responsive-sm">
+                            <table width="100%" class="table table-bordered table-bordered border-dark">
+                                <thead id="cabeceraBoleta">
+                                    <!--Cabecera de la Boleta-->
+                                </thead>
+                                <tbody id="cuerpoTable">
+                                    <!--cuerpo de la boleta-->
+                                </tbody>
+                                <tfoot id="pieTabla">
+                                    <!--Pie de la Boleta-->
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        Listar();
+    });
+
+    //Tabla
+    var tabla = $('#tabla').DataTable({
+        columns:            [
+            { title: "#", width: '5%' },
+            { title: "Fecha", width: '10%' },
+            { title: "Carrera", width: '30%' },
+            { title: "Estudiante", width: '30%' },
+            { title: "CI", width: '10%' },
+            { title: "Opciones", width: '15%' }
+            ],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+    //Listar
+    function Listar()
+    {
+        $.getJSON('@Url.Action("Listar", "VerificacionProyeccion")', { estadoBoleta: 4 }, (data) => {
+            tabla.destroy();
+            dataset = data;
+            tabla = $('#tabla').DataTable({
+                columns:
+                    [
+                        { title: "#", width: '5%' },
+                        { title: "Fecha", width: '10%' },
+                        { title: "Carrera", width: '34%' },
+                        { title: "Estudiante", width: '29%' },
+                        { title: "CI", width: '9%' },
+                        { title: "Opciones", width: '13%' }
+                    ],
+                data: dataset,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                }
+            });
+            $("#cargando").addClass('visually-hidden');
+            $("#cargado").removeClass('visually-hidden');
+        });
+    }
+
+    //Listar Cabecera de Boleta
+    function ListarCabeceraBoleta(id) {
+        $("#cabeceraBoleta").html("");
+        $("#pieTabla").html("");
+        $("#cuerpoTable").html("");
+        $.getJSON('@Url.Action("ListarCabeceraBoleta", "VerificacionProyeccion")', { idBole: id }, function (o) {
+            $("#cabeceraBoleta").html(o);
+            ListarBoleta(id);
+            MostarMensaje(id);
+            CargarPieBoleta();
+        });
+    }
+
+    //Listar cuerpo de la Boleta
+    function ListarBoleta(id) {
+        $.getJSON('@Url.Action("ListarBoleta", "VerificacionProyeccion")', { idBole: id }, function (o) {
+            $("#cuerpoTable").html(o);
+        });
+    }
+
+    //Listar Pie de la Bolet
+    function CargarPieBoleta() {
+        $.getJSON('@Url.Action("CargarPieBoleta", "Proyeccion")', function (o) {
+            $("#pieTabla").html(o);
+        });
+    }
+
+    function MostarMensaje(id) {
+        $("#alertaDescripcion").html("");
+        $.getJSON('@Url.Action("MostarMensaje", "VerificacionProyeccion")', { idBoleta: id }, function (s) {
+            switch (s.Tipo) {
+                case 1:
+                    $("#alertaDescripcion").removeClass('visually-hidden');
+                    $("#alertaDescripcion").append("<b>Nota del estudiante:</b><br/>" + s.Msj + "<br/><b>Celular: </b> " + s.Num + "");
+                    break;
+                case 2:
+                    $("#alertaDescripcion").removeClass('visually-hidden');
+                    $("#alertaDescripcion").append("<b>Celular: </b> " + s.Num + "");
+                    break;
+            };
+        });
+    }
+
+    //Imprimir Boleta
+    function Imprimir(id)
+    {
+        var url = '@Url.Action("ImprimirBoletaEstudiante", "Reportes")' + '?idBole=' + id;;
+        window.open(url);
+    }
+
+</script>
+
+

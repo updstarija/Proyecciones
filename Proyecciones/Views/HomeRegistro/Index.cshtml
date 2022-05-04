@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h4>Verificar Proyeccion del Etudiante</h4>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Buscar Estudiante:</label>
+                <div class="input-group ">
+                    <input type="search" class="form-control" id="ciEstudiante" name="ciEstudiante" placeholder="Buscar por CI" />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-primary" onclick="ListarCabeceraBoleta()"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <br />
+                <div class="table-responsive-sm">
+                    <table width="100%" class="table table-bordered table-bordered border-dark">
+                        <thead id="cabeceraBoleta">
+                            <!--Cabecera de la Boleta-->
+                        </thead>
+                        <tbody id="cuerpoTable">
+                            <!--cuerpo de la boleta-->
+                        </tbody>
+                        <tfoot id="pieTabla">
+                            <!--Pie de la Boleta-->
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#cabeceraBoleta").html("");
+        $("#pieTabla").html("");
+        $("#cuerpoTable").html("");
+    });
+
+    //Validacion de inputs
+    $(function () {
+        $('#ciEstudiante').validacion(' abcdefghijklmnñopqrstuvwxyz0123456789-');
+    });
+
+    //Listar Cabecera de Boleta
+    function ListarCabeceraBoleta() {
+        $("#cabeceraBoleta").html("");
+        $("#pieTabla").html("");
+        $("#cuerpoTable").html("");
+        if ($("#ciEstudiante").val() == "") {
+            Toast("warning", "Debe Ingresar un CI para Buscar la Boleta del Estudiante");
+        }
+        else {
+            $.getJSON('@Url.Action("ListarCabeceraBoleta", "HomeRegistro")', { ci: $("#ciEstudiante").val() }, function (o) {
+                console.log(o);
+                if (o == 1) {
+                    $("#cabeceraBoleta").html("<div class='card text-dark bg-warning mb-' style='max-width: 100%; '><div class='card-body'><h5 style='text-align: center;' class='card-title'><i class='fas fa-exclamation-triangle'></i> Sin Boleta de Proyeccion <i class='fas fa-exclamation-triangle'></i></h5><p style='text-align: center;' class='card-text'>El Estudiante se encuentra sin una boleta de proyección.</p></div></div>");
+                }
+                else if (o == 2) {
+                    Toast("warning", "El CI Ingresado es Erroneo ");
+                }
+                else {
+                    $("#cabeceraBoleta").html(o);
+                    ListarBoleta();
+                    CargarPieBoleta();
+                }
+            });
+        }
+    }
+
+    //Listar Pie de la Bolet
+    function CargarPieBoleta() {
+        $.getJSON('@Url.Action("CargarPieBoleta", "HomeRegistro")', function (o) {
+            $("#pieTabla").html(o);
+        });
+    }
+
+    //Listar cuerpo de la Boleta
+    function ListarBoleta() {
+        var cargandoBoleta = "<tr><div class='d-flex justify-content-center'><div class='spinner-border' role='status'><span class='visually-hidden'>Loading...</span></div></div></tr>";
+        $("#cuerpoTable").html(cargandoBoleta);
+        $.getJSON('@Url.Action("ListarBoleta", "HomeRegistro")', { ci: $("#ciEstudiante").val() }, function (o) {
+            $("#cuerpoTable").html(o);
+        });
+    }
+</script>

@@ -1,0 +1,169 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<!--Interfaz Principal-->
+<h4>Bienvenidos</h4>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="input-group">
+                    <select class="form-select" id="idModulo" style="float:left; margin-left:5px;" onchange="CargarAll(this.value)">
+                    </select>
+                    <button type="button" class="btn btn-outline-primary" onclick="Imprimir()" style="float:left; margin-left:5px;"><i class="fas fa-print"></i> Reporte</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 pt-4">
+                <h5 class="text-center">Mañana</h5>
+                <table id="tablaManana" class="table table-striped table-bordered display table-primary table-responsive-sm" style="width:100%"></table>
+            </div>
+            <div class="col-sm-6 pt-4">
+                <h5 class="text-center">Medio Día</h5>
+                <table id="tablaMedioDia" class="table table-striped table-bordered display table-info table-responsive-sm" style="width:100%"></table>
+            </div>
+            <div class="col-sm-6 pt-4">
+                <h5 class="text-center">Tarde</h5>
+                <table id="tablaTarde" class="table table-striped table-bordered display table-warning table-responsive-sm" style="width:100%"></table>
+            </div>
+            <div class="col-sm-6 pt-4">
+                <h5 class="text-center">Noche</h5>
+                <table id="tablaNoche" class="table table-striped table-bordered display table-secondary table-responsive-sm" style="width:100%"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        CargarModulo();
+    });
+
+    var tabla = $('#tablaManana').DataTable({
+        columns: [{ title: "#", width: '10%' }, { title: "Materia", width: '70%' }, { title: "Cantidad Est.", width: '20%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        },
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]]
+    });
+    var tabla2 = $('#tablaMedioDia').DataTable({
+        columns: [{ title: "#", width: '10%' }, { title: "Materia", width: '70%' }, { title: "Cantidad Est.", width: '20%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        },
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]]
+    });
+    var tabla3 = $('#tablaTarde').DataTable({
+        columns: [{ title: "#", width: '10%' }, { title: "Materia", width: '70%' }, { title: "Cantidad Est.", width: '20%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        },
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]]
+    });
+    var tabla4 = $('#tablaNoche').DataTable({
+        columns: [{ title: "#", width: '10%' }, { title: "Materia", width: '70%' }, { title: "Cantidad Est.", width: '20%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        },
+        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]]
+    });
+
+    //Cargar Combo de Modulo
+    function CargarModulo() {
+         $.getJSON('@Url.Action("CargarModulo", "AdmProyeccion")', function (o) {
+             $("#idModulo").html("");
+             var opcion = "<option value='0'>Seleccione un módulo</option>";
+             $("#idModulo").append(opcion);
+             for (var i = 0; i < o.length; i++) {
+                 opcion = "<option value=" + o[i].id + ">" + o[i].nombre + "</option>";
+                $("#idModulo").append(opcion);
+            };
+        });
+    }
+
+    //CargarTablas
+    function CargarAll(idModulo) {
+        MateriasManana(idModulo);
+        MateriasMedioDia(idModulo);
+        MateriasTarde(idModulo);
+        MateriasNoche(idModulo);
+    }
+
+    //Cargar Tabla Materias Manana
+    function MateriasManana(idModulo) {
+        $.getJSON('@Url.Action("MateriasManana", "home")', { idMod: idModulo }, (o) => {
+            tabla.destroy();
+            tabla = $('#tablaManana').DataTable({
+                data: o,
+                    "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                },
+                "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]]
+            });
+        });
+    }
+
+    //Cargar Tabla Materias Medio Dia
+    function MateriasMedioDia(idModulo) {
+        $.getJSON('@Url.Action("MateriasMedioDia", "home")', { idMod: idModulo }, (o) => {
+            tabla2.destroy();
+            tabla2 = $('#tablaMedioDia').DataTable({
+                data: o,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+                },
+               "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]]
+            });
+        });
+    }
+
+    //Cargar Tabla Materias Tarde
+    function MateriasTarde(idModulo) {
+        $.getJSON('@Url.Action("MateriasTarde", "home")', { idMod: idModulo }, (o) => {
+            tabla3.destroy();
+            tabla3 = $('#tablaTarde').DataTable({
+                data: o,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                },
+                "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]]
+            });
+        });
+    }
+
+    //Cargar Tabla Materias Noche
+    function MateriasNoche(idModulo) {
+        $.getJSON('@Url.Action("MateriasNoche", "home")', { idMod: idModulo }, (o) => {
+            tabla4.destroy();
+            tabla4 = $('#tablaNoche').DataTable({
+                data: o,
+                    "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                },
+                "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "All"]]
+            });
+        });
+    }
+
+    //Imprimir Reportes
+    function Imprimir() {
+        if ($("#idModulo").val() == 0) {
+            Toast("warning", "Debe seleccionar un módulo");
+        } else {
+            var idMod = $("#idModulo").val();
+            var url = '@Url.Action("ImprimirReporteManana", "Reportes")' + '?idMod=' + idMod;;
+            window.open(url);
+            var url2 = '@Url.Action("ImprimirReporteMedioDia", "Reportes")' + '?idMod=' + idMod;;
+            window.open(url2);
+            var url3 = '@Url.Action("ImprimirReporteTarde", "Reportes")' + '?idMod=' + idMod;;
+            window.open(url3);
+            var url4 = '@Url.Action("ImprimirReporteNoche", "Reportes")' + '?idMod=' + idMod;;
+            window.open(url4);
+        }
+    }
+
+</script>

@@ -1,0 +1,189 @@
+﻿
+.menu-oferta-semestral a:hover {
+    cursor: pointer;
+}
+
+.dato-materia {
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+}
+    .dato-materia:hover {
+        background: #34495E;
+        color: white;
+    }
+
+.agregar-proyeccion {
+    width: 50px;
+    height: 50px;
+    background: #1A5276;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 50%;
+    font-size: 20px;
+    position: fixed;
+    bottom: 164px;
+    right: 40px;
+    cursor: pointer;
+    border: 4px solid transparent;
+    transition: all 100ms ease;
+}
+
+    .agregar-proyeccion:hover {
+        border-color: rgba(0,0,0,0.1);
+    }
+
+/*.enviar-proyeccion {
+    width: 50px;
+    height: 50px;
+    background: #1A5276;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 50%;
+    font-size: 20px;
+    position: fixed;
+    bottom: 164px;
+    right: 40px;
+    cursor: pointer;
+    border: 4px solid transparent;
+    transition: all 100ms ease;
+}*/
+/*
+    .enviar-proyeccion:hover {
+    border-color: rgba(0,0,0,0.1);
+}*/
+
+
+.imprimir {
+    width: 50px;
+    height: 50px;
+    background: #1A5276;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 50%;
+    font-size: 20px;
+    position: fixed;
+    bottom: 102px;
+    right: 40px;
+    cursor: pointer;
+    border: 4px solid transparent;
+    transition: all 100ms ease;
+}
+
+    .imprimir:hover {
+        border-color: rgba(0,0,0,0.1);
+    }
+
+.ir-arriba {
+    width: 50px;
+    height: 50px;
+    background: #1A5276;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border-radius: 50%;
+    font-size: 20px;
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    cursor: pointer;
+    border: 4px solid transparent;
+    transition: all 100ms ease;
+}
+
+    .ir-arriba:hover {
+        border-color: rgba(0,0,0,0.1);
+    }
+
+.click-proyeccion{
+    cursor: pointer;
+}
+    .click-proyeccion:hover {
+        background: #34495E;
+        color: white;
+    }
+
+.nombreTituloSemestre{
+    font-size: 15px;
+    text-align: center;
+}
+.materiaMalla {
+    color: #fff;
+    -webkit-box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+    box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+}
+
+    .materiaMalla:hover {
+        cursor:pointer;
+        background: #000000;
+        opacity: 1;
+    }
+
+.materiaMallaPendiente {
+    opacity: .9;
+    background: #8ab6d6;
+}
+
+.materiaMallaBoleta {
+    background: #DBA804;
+}
+
+.materiaReprobada {
+    background: #F0544A;
+}
+
+
+.materiaMallaAprobada {
+    background: #1e6f5c;
+}
+
+.materiaConvalidada {
+    background: #34495E;
+}
+
+.MateriaDesmarcadas{
+    color:#000;
+}
+
+.materiaMalla div, p {
+    margin: 0;
+    padding: 0.1px, 0, 0.5px, 0;
+    border: 0;
+    height: 60px;
+}
+
+.nombreMaterias {
+    font-size: 10px;
+    text-align: center;
+}
+#tituloContactos{
+    visibility:hidden;
+}
+#tituloContactos1{
+    visibility:visible;
+}
+
+.bg-ayuda:hover{
+    color: #000000;
+}
+
+@media (max-width: 800px) {
+    .materiaMalla div, p {
+        height: 68px;
+    }
+
+    #tituloContactos {
+        visibility: visible;
+    }
+
+    #tituloContactos1 {
+        visibility: hidden;
+    }
+}

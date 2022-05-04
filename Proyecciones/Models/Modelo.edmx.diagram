@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="98722e29e5a74d4fb25291eaa94a210f" Name="Diagram1">
+        <EntityTypeShape EntityType="ProyeccionModel.AdmMateria" Width="1.5" PointX="10.25" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyeccionModel.AdmProyeccion" Width="1.5" PointX="8" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyeccionModel.Boleta" Width="1.5" PointX="10.25" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyeccionModel.BoletaDetalle" Width="1.5" PointX="12.5" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyeccionModel.Modulo" Width="1.5" PointX="5.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyeccionModel.Permisos" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyeccionModel.Rol" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyeccionModel.RolPermisos" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyeccionModel.Usuario" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <AssociationConnector Association="ProyeccionModel.FK__BoletaDet__idAdm__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyeccionModel.FK_AdmMateria_AdmProyeccion" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyeccionModel.FK_AdmProyeccion_Modulo" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyeccionModel.FK__BoletaDet__idBol__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyeccionModel.FK__RolPermis__idPer__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyeccionModel.FK__RolPermis__idRol__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="ProyeccionModel.FK__Usuario__idRol__6477ECF3" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,78 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Proyecciones UPDS-Tarija</title>
+    <link rel="icon" type="image/png" href="~/Content/img/logo.jpg" />
+    <link href="~/Content/css/Login.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <link href="~/style.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1A5276" />
+</head>
+<body>
+    <img class="wave" src="~/Content/img/wave.png" />
+    <div class="container">
+        <div class="img">
+            <img src="~/Content/img/bg.png" />
+        </div>
+        <div class="login-content">
+            <form method="post">
+                <img src="~/Content/img/logo 3d.png" />
+                <h2 class="title">BIENVENIDOS</h2>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="div">
+                        <h5>USUARIO</h5>
+                        <input type="text" class="input" name="inputUser">
+                    </div>
+                </div>
+                <div class="input-div pass">
+                    <div class="i">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="div">
+                        <h5>CONTRASEÑA</h5>
+                        <input type="password" class="input" name="inputPassword">
+                    </div>
+                </div>
+                <!--<a href="#">Forgot Password?</a>-->
+                <input type="submit" class="btn" value="Iniciar Sesión" (click)="login()">
+            </form>
+        </div>
+    </div>
+    <script src="~/Content/js/Login.js"></script>
+    <script src="~/cute-alert.js"></script>
+    <script>
+        if (@ViewBag.UsuarioInvalido == 1) {
+            function Toast(tipo, msj) {
+                cuteToast({
+                    type: tipo,
+                    message: msj,
+                    timer: 4000
+                });
+            }
+            Msj = "Usuario invalido";
+            Toast("error", Msj);
+        }
+        else if (@ViewBag.UsuarioInvalido == 2) {
+            cuteAlert({
+            type: "error",
+                title: "Comunicado",
+                message: "La plataforma de proyecciones no está disponible para los estudiantes que pertenezcan al modelo educativo por objetivos",
+            confirmText: "Aceptar",
+            cancelText: "Cancelar"
+            }).then((e) => {
+                
+            })
+        }
+    </script>
+</body>
+</html>
+

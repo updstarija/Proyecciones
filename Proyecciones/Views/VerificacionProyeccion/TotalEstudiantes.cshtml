@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "TotalEstudiantes";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h4>Total de Estudiantes</h4>
+<div class="card mb-3">
+    <div class="card-body" style="min-height:500px">
+        <div class="row">
+            <div class="col-sm-12">
+                <label class="pt-1 pb-1">Seleccione una opción:</label>
+                <select id="idFacultad" class="form-select" aria-label="Default select example" onChange="Listar()">
+                    <option value="100">TODAS LAS FACULTADES</option>
+                    <option value="5">FACULTAD DE INGENIERÍA</option>
+                    <option value="3">FACULTAD DE CIENCIAS EMPRESARIALES</option>
+                    <option value="9">FACULTAD DE CIENCIAS SOCIALES Y JURÍDICAS</option>
+                </select>
+                <div id="cargando" class="d-flex justify-content-center visually-hidden pt-2">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                 <div id="cargado" class="table table-responsive-sm pt-2">
+                    <table id="tabla" class="table table-striped table-bordered display" style="width:100%"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+       // CargarFacultad();
+        ListarTodas();
+    });
+
+    function CargarFacultad() {
+        $.getJSON('@Url.Action("CargarFacultad", "VerificacionProyeccion")', function (o) {
+             $("#idFacultad").html("");
+            var opcion = "<option value='100' >TODAS LAS FACULTADES</option>";
+            $("#idFacultad").append(opcion);
+            for (var i = 0; i < o.length; i++) {
+                opcion = "<option value=" + o[i].id + ">" + o[i].nombre + "</option>";
+                $("#idFacultad").append(opcion);
+            }
+        });
+    }
+
+    //Tabla
+    var tabla = $('#tabla').DataTable({
+        columns:            [
+            { title: "#", width: '10%' },
+            { title: "Estudiante", width: '40%' },
+            { title: "CI", width: '10%' },
+            { title: "Carrera", width: '40%' },
+            ],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+    //Listar
+    function Listar()
+    {
+        $("#cargando").removeClass('visually-hidden');
+        $("#cargado").addClass('visually-hidden');
+        $.getJSON('@Url.Action("ListarCantidadEstudintes", "VerificacionProyeccion")', { idFacultad: $("#idFacultad").val(), }, (data) => {
+            tabla.destroy();
+            dataset = data;
+            tabla = $('#tabla').DataTable({
+                columns:
+                    [
+                        { title: "#", width: '10%' },
+                        { title: "Estudiante", width: '40%' },
+                        { title: "CI", width: '10%' },
+                        { title: "Carrera", width: '40%' },
+                    ],
+                data: dataset,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                }
+            });
+            $("#cargando").addClass('visually-hidden');
+            $("#cargado").removeClass('visually-hidden');
+        });
+    }
+
+
+    function ListarTodas()
+    {
+        $("#cargando").removeClass('visually-hidden');
+        $("#cargado").addClass('visually-hidden');
+        $.getJSON('@Url.Action("ListarCantidadEstudintes", "VerificacionProyeccion")', { idFacultad: 100 }, (data) => {
+            tabla.destroy();
+            dataset = data;
+            tabla = $('#tabla').DataTable({
+                columns:
+                    [
+                        { title: "#", width: '10%' },
+                        { title: "Estudiante", width: '40%' },
+                        { title: "CI", width: '10%' },
+                        { title: "Carrera", width: '40%' },
+                    ],
+                data: dataset,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                }
+            });
+            $("#cargando").addClass('visually-hidden');
+            $("#cargado").removeClass('visually-hidden');
+        });
+    }
+</script>

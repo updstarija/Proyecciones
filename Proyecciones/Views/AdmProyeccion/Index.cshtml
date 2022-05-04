@@ -1,0 +1,911 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<!--Interfaz Principal-->
+<h4>Administrar Oferta Semestral</h4>
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <nav>
+                    <!--Boton para Cargar Materias-->
+                    <button style=" float: right" type="button" class="btn btn-primary" onclick="Insertar()" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="fas fa-book-open"></i> Cargar Oferta
+                    </button>
+                    <!--Menu de Modulos-->
+                    <div class="nav nav-tabs menu-oferta-semestral" id="nav-tab" role="tablist">
+
+                    </div>
+                </nav>
+                <!--Cuerpo del Menu-->
+                <div class="tab-content" id="nav-tabContent">
+                    <!--Acordeon-->
+                        <div class="tab-pane fade show active" role="tabpanel">
+                            <div class="contenido">
+                                <div class="accordion" id="accordionExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button onclick="SeleccionarSemestre(1)" class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                                Primer Semestre
+                                            </button>
+                                        </h2>
+                                        <div id="collapse1" class="accordion-collapse collapse table table-responsive-sm" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <!--Cuerpo-->
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="cargando-table spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="contenido-table">
+                                                    <table id="tabla" class="table table-striped table-bordered display" style="width:100%"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingTwo">
+                                            <button onclick="SeleccionarSemestre(2)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                                Segundo Semestre
+                                            </button>
+                                        </h2>
+                                        <div id="collapse2" class="accordion-collapse collapse table table-responsive-sm" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <!--Cuerpo-->
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="cargando-table spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="contenido-table">
+                                                    <table id="tabla2" class="table table-striped table-bordered display" style="width:100%"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button onclick="SeleccionarSemestre(3)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                                Tercer Semestre
+                                            </button>
+                                        </h2>
+                                        <div id="collapse3" class="accordion-collapse collapse table table-responsive-sm" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <!--Cuerpo-->
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="cargando-table spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="contenido-table">
+                                                    <table id="tabla3" class="table table-striped table-bordered display" style="width:100%"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button onclick="SeleccionarSemestre(4)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                                Cuarto Semestre
+                                            </button>
+                                        </h2>
+                                        <div id="collapse4" class="accordion-collapse collapse table table-responsive-sm" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <!--Cuerpo-->
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="cargando-table spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="contenido-table">
+                                                    <table id="tabla4" class="table table-striped table-bordered display" style="width:100%"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button onclick="SeleccionarSemestre(5)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                                Quinto Semestre
+                                            </button>
+                                        </h2>
+                                        <div id="collapse5" class="accordion-collapse collapse table table-responsive-sm" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <!--Cuerpo-->
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="cargando-table spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="contenido-table">
+                                                    <table id="tabla5" class="table table-striped table-bordered display" style="width:100%"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button onclick="SeleccionarSemestre(6)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse6" aria-expanded="false" aria-controls="collapse6">
+                                                Sexto Semestre
+                                            </button>
+                                        </h2>
+                                        <div id="collapse6" class="accordion-collapse collapse table table-responsive-sm" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <!--Cuerpo-->
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="cargando-table spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="contenido-table">
+                                                    <table id="tabla6" class="table table-striped table-bordered display" style="width:100%"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button onclick="SeleccionarSemestre(7)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
+                                                Séptimo Semestre
+                                            </button>
+                                        </h2>
+                                        <div id="collapse7" class="accordion-collapse collapse table table-responsive-sm" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <!--Cuerpo-->
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="cargando-table spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="contenido-table">
+                                                    <table id="tabla7" class="table table-striped table-bordered display" style="width:100%"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button onclick="SeleccionarSemestre(8)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
+                                                Octavo Semestre
+                                            </button>
+                                        </h2>
+                                        <div id="collapse8" class="accordion-collapse collapse table table-responsive-sm" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <!--Cuerpo-->
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="cargando-table spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="contenido-table">
+                                                    <table id="tabla8" class="table table-striped table-bordered display" style="width:100%"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button onclick="SeleccionarSemestre(9)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
+                                                Noveno Semestre
+                                            </button>
+                                        </h2>
+                                        <div id="collapse9" class="accordion-collapse collapse table table-responsive-sm" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <!--Cuerpo-->
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="cargando-table spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="contenido-table">
+                                                    <table id="tabla9" class="table table-striped table-bordered display" style="width:100%"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button onclick="SeleccionarSemestre(10)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse10" aria-expanded="false" aria-controls="collapse10">
+                                                Décimo Semestre
+                                            </button>
+                                        </h2>
+                                        <div id="collapse10" class="accordion-collapse collapse table table-responsive-sm" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <!--Cuerpo-->
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="cargando-table spinner-border" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                                <div class="contenido-table">
+                                                    <table id="tabla10" class="table table-striped table-bordered display" style="width:100%"></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!---->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Principal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="overflow-y: scroll;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cargar Oferta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h5>Datos de Carrera</h5>
+                        <label>Buscar Carrera:</label>
+                        <div class="input-group" style="padding-bottom:0">
+                            <input type="text" id="id" name="id" class="form-control" hidden="hidden">
+                            <input type="text" class="form-control" id="estado" hidden="hidden">
+                            <input type="text" id="idCarrera" name="idCarrera" class="form-control" hidden="hidden">
+                            <input type="search" id="nombreCarrera" class="form-control" oninput="BuscarCarrera(this.value)" />
+                            <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
+                        </div>
+                        <ul class="list-group" id="ListarCarrera" style="padding-top:0">
+                            <!--Lista de Carreras-->
+                        </ul>
+                        <br />
+                    </div>
+                    <div class="col-sm-12">
+                        <h5>Datos de Posición</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Módulo:</label>
+                        <div class="input-group mb-3">
+                            <select id="idModulo" class="form-select"></select>
+                            <span class="input-group-text" id="basic-addon2"><i class="fas fa-sort-alpha-down"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Semestre:</label>
+                        <div class="input-group mb-3">
+                            <select id="idSemestre" class="form-select"></select>
+                            <span class="input-group-text" id="basic-addon2"><i class="fas fa-sort-alpha-down"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <h5>Datos de Materia</h5>
+                    </div>
+                    <!--Materias-->
+                    <div class="col-md-6">
+                        <label>Buscar Materia:</label>
+                        <div class="input-group ">
+                            <input type="text" class="form-control" id="idMateriaSeleccionada" hidden="hidden">
+                            <input type="text" class="form-control" placeholder="Seleccionar" aria-label="Recipient's username" aria-describedby="button-addon2" id="nombreMateria" readonly="readonly">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ModalMaterias" onclick="OcultarModalPrincipal()">Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Turno:</label>
+                        <div class="input-group">
+                            <select class="form-select" id="idTurno">
+                            </select>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary" type="button" onclick="AgregarMateria()">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Materia</th>
+                                    <th scope="col">Turno</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="trMaterias"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="Guardar()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Materias-->
+<div class="modal fade" id="ModalMaterias" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Materias</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="MostrarModalPrincipal()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group" style="padding-bottom:0">
+                    <input type="search" class="form-control" oninput="BuscarMateria(this.value)" id="BuscarM" />
+                    <span class="input-group-text" id="basic-addon2"><i class="fas fa-search"></i></span>
+                </div>
+                <div class="list-group" style="padding-top:0" id="ListarMaterias">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="MostrarModalPrincipal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        PrimerModulo();
+        ModuloActual();
+        CargarModulo();
+        CargarSemestre();
+        CargarTurnos();
+    });
+
+    //Variables
+    var activo = 0;
+    var estado = 1;
+    var moduloseleccionado;
+    var tabla = $('#tabla').DataTable({
+        columns: [{ title: "Carrera", width: '18%' }, { title: "Mañana", width: '18%' }, { title: "Medio Día", width: '18%' }, { title: "Tarde", width: '18%' }, { title: "Noche", width: '18%' }, { title: "", width: '10%' }, ],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+    var tabla2 = $('#tabla2').DataTable({
+        columns: [{ title: "Carrera", width: '18%' }, { title: "Mañana", width: '18%' }, { title: "Medio Día", width: '18%' }, { title: "Tarde", width: '18%' }, { title: "Noche", width: '18%' }, { title: "", width: '10%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+    var tabla3 = $('#tabla3').DataTable({
+        columns: [{ title: "Carrera", width: '18%' }, { title: "Mañana", width: '18%' }, { title: "Medio Día", width: '18%' }, { title: "Tarde", width: '18%' }, { title: "Noche", width: '18%' }, { title: "", width: '10%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+    var tabla4 = $('#tabla4').DataTable({
+        columns: [{ title: "Carrera", width: '18%' }, { title: "Mañana", width: '18%' }, { title: "Medio Día", width: '18%' }, { title: "Tarde", width: '18%' }, { title: "Noche", width: '18%' }, { title: "", width: '10%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+    var tabla5 = $('#tabla5').DataTable({
+        columns: [{ title: "Carrera", width: '18%' }, { title: "Mañana", width: '18%' }, { title: "Medio Día", width: '18%' }, { title: "Tarde", width: '18%' }, { title: "Noche", width: '18%' }, { title: "", width: '10%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+    var tabla6 = $('#tabla6').DataTable({
+        columns: [{ title: "Carrera", width: '18%' }, { title: "Mañana", width: '18%' }, { title: "Medio Día", width: '18%' }, { title: "Tarde", width: '18%' }, { title: "Noche", width: '18%' }, { title: "", width: '10%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+    var tabla7 = $('#tabla7').DataTable({
+        columns: [{ title: "Carrera", width: '18%' }, { title: "Mañana", width: '18%' }, { title: "Medio Día", width: '18%' }, { title: "Tarde", width: '18%' }, { title: "Noche", width: '18%' }, { title: "", width: '10%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+    var tabla8 = $('#tabla8').DataTable({
+        columns: [{ title: "Carrera", width: '18%' }, { title: "Mañana", width: '18%' }, { title: "Medio Día", width: '18%' }, { title: "Tarde", width: '18%' }, { title: "Noche", width: '18%' }, { title: "", width: '10%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+    var tabla9 = $('#tabla9').DataTable({
+        columns: [{ title: "Carrera", width: '18%' }, { title: "Mañana", width: '18%' }, { title: "Medio Día", width: '18%' }, { title: "Tarde", width: '18%' }, { title: "Noche", width: '18%' }, { title: "", width: '10%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+    var tabla10 = $('#tabla10').DataTable({
+        columns: [{ title: "Carrera", width: '18%' }, { title: "Mañana", width: '18%' }, { title: "Medio Día", width: '18%' }, { title: "Tarde", width: '18%' }, { title: "Noche", width: '18%' }, { title: "", width: '10%' },],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+        }
+    });
+
+    //Validacion de inputs
+    $(function () {
+        $('#nombreCarrera').validacion(' abcdefghijklmnñopqrstuvwxyzáéíóú0123456789.-');
+        $('#BuscarM').validacion(' abcdefghijklmnñopqrstuvwxyzáéíóú0123456789.-');
+    });
+
+    //PrimerModulo
+    function PrimerModulo() {
+        $.getJSON('@Url.Action("PrimerModulo", "AdmProyeccion")', (data) => {
+            moduloseleccionado = (data.id);
+        })
+    }
+
+    //Listar
+    function Listar(idModulo, idSemestre)
+    {
+        $(".cargando-table").show();
+        $(".contenido-table").hide();
+        var semestre = idSemestre;
+        switch (semestre) {
+            case 1:
+                $.getJSON('@Url.Action("Listar", "AdmProyeccion")', { idmodulos: idModulo, idSemestres:1}, (o) => {
+                    tabla.destroy();
+                    tabla = $('#tabla').DataTable({
+                        data: o,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                        }
+                    });
+                    $(".cargando-table").hide();
+                    $(".contenido-table").show();
+                });
+                break;
+            case 2:
+                $.getJSON('@Url.Action("Listar", "AdmProyeccion")', { idmodulos: idModulo, idSemestres:2}, (o) => {
+                    tabla2.destroy();
+                    tabla2 = $('#tabla2').DataTable({
+                        data: o,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                        }
+                    });
+                    $(".cargando-table").hide();
+                    $(".contenido-table").show();
+                });
+                break;
+            case 3:
+                $.getJSON('@Url.Action("Listar", "AdmProyeccion")', { idmodulos: idModulo, idSemestres:3}, (o) => {
+                    tabla3.destroy();
+                    tabla3 = $('#tabla3').DataTable({
+                        data: o,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                        }
+                    });
+                    $(".cargando-table").hide();
+                    $(".contenido-table").show();
+                });
+                break;
+            case 4:
+                $.getJSON('@Url.Action("Listar", "AdmProyeccion")', { idmodulos: idModulo, idSemestres:4}, (o) => {
+                    tabla4.destroy();
+                    tabla4 = $('#tabla4').DataTable({
+                        data: o,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                        }
+                    });
+                    $(".cargando-table").hide();
+                    $(".contenido-table").show();
+                });
+                break;
+            case 5:
+                $.getJSON('@Url.Action("Listar", "AdmProyeccion")', { idmodulos: idModulo, idSemestres:5}, (o) => {
+                    tabla5.destroy();
+                    tabla5 = $('#tabla5').DataTable({
+                        data: o,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                        }
+                    });
+                    $(".cargando-table").hide();
+                    $(".contenido-table").show();
+                });
+                break;
+            case 6:
+                $.getJSON('@Url.Action("Listar", "AdmProyeccion")', { idmodulos: idModulo, idSemestres:6}, (o) => {
+                    tabla6.destroy();
+                    tabla6 = $('#tabla6').DataTable({
+                        data: o,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                        }
+                    });
+                    $(".cargando-table").hide();
+                    $(".contenido-table").show();
+                });
+                break;
+            case 7:
+                $.getJSON('@Url.Action("Listar", "AdmProyeccion")', { idmodulos: idModulo, idSemestres:7}, (o) => {
+                    tabla7.destroy();
+                    tabla7 = $('#tabla7').DataTable({
+                        data: o,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                        }
+                    });
+                    $(".cargando-table").hide();
+                    $(".contenido-table").show();
+                });
+                break;
+            case 8:
+                $.getJSON('@Url.Action("Listar", "AdmProyeccion")', { idmodulos: idModulo, idSemestres:8}, (o) => {
+                    tabla8.destroy();
+                    tabla8 = $('#tabla8').DataTable({
+                        data: o,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                        }
+                    });
+                    $(".cargando-table").hide();
+                    $(".contenido-table").show();
+                });
+                break;
+            case 9:
+                $.getJSON('@Url.Action("Listar", "AdmProyeccion")', { idmodulos: idModulo, idSemestres:9}, (o) => {
+                    tabla9.destroy();
+                    tabla9 = $('#tabla9').DataTable({
+                        data: o,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                        }
+                    });
+                    $(".cargando-table").hide();
+                    $(".contenido-table").show();
+                });
+                break;
+            case 10:
+                $.getJSON('@Url.Action("Listar", "AdmProyeccion")', { idmodulos: idModulo, idSemestres:10}, (o) => {
+                    tabla10.destroy();
+                    tabla10 = $('#tabla10').DataTable({
+                        data: o,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+                        }
+                    });
+                    $(".cargando-table").hide();
+                    $(".contenido-table").show();
+                });
+                break;
+        }
+    }
+
+    //Cargar menu de Modulos
+    function CargarMenu(activo) {
+        $.getJSON('@Url.Action("CargarMenu", "AdmProyeccion")', { activo: activo }, function (o) {
+            $("#nav-tab").html(o);
+        });
+    };
+
+    //Modulo Inicial
+    function ModuloActual() {
+        $.getJSON('@Url.Action("ModuloActual", "AdmProyeccion")', (data) => {
+            CargarMenu(data.id);
+            activo = data.id;
+            Listar(data.id, estado)
+
+        })
+    }
+
+    //Seleccionar Modulo
+    function SeleccionarModulo(id) {
+        moduloseleccionado = id;
+        var menor = id - 1;
+        var mayor = id + 1;
+        if (id > menor && id < mayor) {
+            $("#" + id).addClass('active bg-primary text-white');
+            $("#0" + id).addClass('active bg-primary text-white');
+            $("#0" + id).addClass('show');
+            for (var i = 0; i < 6; i++) {
+                $("#" + menor).removeClass('active bg-primary text-white');
+                $("#" + mayor).removeClass('active bg-primary text-white');
+                $("#0" + menor).removeClass('active bg-primary text-white');
+                $("#0" + mayor).removeClass('active bg-primary text-white');
+                $("#0" + menor).removeClass('show');
+                $("#0" + mayor).removeClass('show');
+                menor--;
+                mayor++;
+            }
+        }
+        activo = id;
+        Listar(id, estado);
+    }
+
+    //Seleccionar Estado de Prorroga
+    function SeleccionarSemestre(id) {
+        estado = id;
+        Listar(activo, id);
+    }
+
+    //Insertar
+    function Insertar()
+    {
+        $("#id").val(0);
+        $("#idCarrera").val("");
+        $("#nombreCarrera").val("");
+        $("#estado").val("True");
+        $("#idMateriaSeleccionada").val("");
+        $("#nombreMateria").val("");
+        ListaMateriaAgregada = [];
+        $("#trMaterias").html("");
+    }
+
+    //Editar
+    function Editar(id) {
+        CargarModulo();
+        CargarSemestre();
+        CargarTurnos();
+        $.getJSON('@Url.Action("Mostrar", "AdmProyeccion")', { id: id }, (data) => {
+            $("#id").val(data.id);
+            $("#idCarrera").val(data.idCarrera);
+            $("#nombreCarrera").val(data.nombreCarrera);
+            $("#estado").val(data.estado);
+            $("#idModulo").val(data.idModulo);
+            $("#idSemestre").val(data.idSemestre);
+            $("#idMateriaSeleccionada").val("");
+            $("#nombreMateria").val("");
+            ListarMateriasAgregadas();
+        });
+    }
+
+    //Eliminar la Proyeccion
+    function EliminarProyeccion(id)
+    {
+        cuteAlert({
+            type: "question",
+            title: "Eliminar",
+            message: "¿Está seguro de que desea eliminar la carrera de la oferta?",
+            confirmText: "Aceptar",
+            cancelText: "Cancelar"
+        }).then((e) => {
+            if (e == ("confirm")) {
+                $.getJSON('@Url.Action("EliminarProyeccion", "AdmProyeccion")', { Id: id }, function (s) {
+                    switch (s.Tipo) {
+                        case 1:
+                            Listar(moduloseleccionado, estado);
+                            Toast("success", s.Msj);
+                            break;
+                        case 2:
+                            Toast("warning", s.Msj);
+                            break;
+                        case 3:
+                            Toast("error", s.Msj);
+                            break;
+                    };
+                });
+            }
+        })
+    }
+
+    //Guardar
+    function Guardar()
+    {
+        var obj = {
+            id: $("#id").val(),
+            idCarrera: $("#idCarrera").val(),
+            idModulo: $("#idModulo").val(),
+            idSemestre: $("#idSemestre").val(),
+            estado: $("#estado").val(),
+            AdmMateria: ListaMateriaAgregada,
+
+        };
+        $.ajax({
+            url: '@Url.Action("Guardar", "AdmProyeccion")',
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(obj),
+            success: function (s) {
+                switch (s.Tipo) {
+                    case 1:
+                        Listar(moduloseleccionado, estado);
+                        Toast("success", s.Msj);
+                        $("#exampleModal").modal('hide');
+                        break;
+                    case 2:
+                        Toast("warning", s.Msj);
+                        break;
+                    case 3:
+                        Toast("error", s.Msj);
+                        break;
+                };
+            }
+        });
+    }
+
+    //Buscar Carrera
+    function BuscarCarrera(carrera) {
+        $.getJSON('@Url.Action("BuscarCarrera", "AdmProyeccion")', { "carrera": carrera }, function (o) {
+            $("#ListarCarrera").html("");
+            for (var i = 0; i < o.length; i++) {
+                var opcion = "<li class='list-group-item list-group-item-action d-flex justify-content-between align-items-center dato-materia'  onclick='SeleccionarCarrera(" + o[i].Id + ")' >" + o[i].Nombre + "<span class='badge bg-primary rounded-pill' >" + o[i].Sigla + "</span></li >";
+                $("#ListarCarrera").append(opcion);
+            };
+        });
+    }
+
+    //Seleccionar Carrera
+    function SeleccionarCarrera(id) {
+        $.getJSON('@Url.Action("SeleccionarCarrera", "AdmProyeccion")', { Id: id }, function (o) {
+            $("#idCarrera").val(o.id);
+            $("#nombreCarrera").val(o.nombre);
+            $("#ListarCarrera").html("");
+        });
+    }
+
+    //Seleccionar Materia
+    function SeleccionarMateria(id) {
+        $.getJSON('@Url.Action("SeleccionarMateria", "AdmProyeccion")', { Id: id }, function (o) {
+            $("#idMateriaSeleccionada").val(o.Id);
+            $("#nombreMateria").val(o.Nombre);
+            $("#ModalMaterias").modal('hide');
+            $("#exampleModal").modal('show');
+            $("#BuscarM").val("");
+            $("#ListarMaterias").html("");
+        });
+    }
+
+    //Agregar Materias Seleccionadas
+    ListaMateriaAgregada = [];
+    function AgregarMateria() {
+        CargarTurnos();
+        var o = {
+            idAdmProyeccion: $("#id").val() , idMateria: $("#idMateriaSeleccionada").val(),
+            Nombre: $("#nombreMateria").val(), idTurno: $("#idTurno").val(),
+            Turno: $('select[id="idTurno"] option:selected').text()
+        };
+        if ($("#idMateriaSeleccionada").val() != "") {
+            if ($("#idTurno").val() != 0) {
+                if ($("#id").val() == 0) {
+                    var turnos = ListaMateriaAgregada.find(x => x.idTurno == o.idTurno);
+                    if (turnos == null) {
+                        ListaMateriaAgregada.push(o);
+                        ListarMateriasAgregadas();
+                    } else {
+                        Toast("warning", "Ya existe una materia en el turno seleccionado");
+                    }
+                } else {
+                    $.getJSON('@Url.Action("AgregarMateria", "AdmProyeccion")', o, function (s) {
+                        switch (s.Tipo) {
+                            case 1:
+                                ListarMateriasAgregadas();
+                                Listar(moduloseleccionado, estado);
+                                break;
+                            case 2:
+                                Toast("warning", s.Msj);
+                                break;
+                            case 3:
+                                Toast("error", s.Msj);
+                                break;
+                        };
+                    });
+                }
+            }
+            else {
+                Toast("warning", "Debe seleccionar un turno");
+            }
+        }
+        else {
+            Toast("warning", "Debe seleccionar una materia");
+        }
+    }
+
+    //Listar Materias Agregadas
+    function ListarMateriasAgregadas()
+    {
+        $("#trMaterias").html("");
+        if ($("#id").val() == 0)
+        {
+            $.each(ListaMateriaAgregada, (i, val) => {
+                var fila = '<tr><th>' + (i + 1) + '</th ><td>' + val.Nombre + '</td><td>' + val.Turno + '</td><td><button type="button"  onclick="BorrarMateria(' + i + ')" class="btn btn-outline-light text-dark" > <i class="fas fa-trash-alt"></i></button ></td > ';
+                $("#trMaterias").append(fila);
+
+            });
+        }
+        else
+        {
+            $.getJSON('@Url.Action("ListarMateriasAgregadas", "AdmProyeccion")', { "idAP": $("#id").val() }, function (o) {
+                $.each(o, (i, val) => {
+                    var obj = { idAdmProyeccion: val.id, idMateria: val.idMateria, Nombre: val.nombreM, idTurno: val.idTurno };
+                    ListaMateriaAgregada.push(obj);
+                    var fila = '<tr><th>' + (i + 1) + '</th ><td>' + val.nombre + '</td><td>' + val.turno + '</td><td><button type="button"  onclick="BorrarMateriaEditada(' + val.idAdmMateria + ')" class="btn btn-outline-light text-dark" > <i class="fas fa-trash-alt"></i></button ></td > ';
+                    $("#trMaterias").append(fila);
+                });
+            });
+        }
+        $("#idMateriaSeleccionada").val("");
+        $("#nombreMateria").val("");
+        $("#idTurno").val(0);
+    }
+
+    //Borrar Materia Agregada
+    function BorrarMateria(i) {
+        ListaMateriaAgregada.splice(i, 1);
+        ListarMateriasAgregadas();
+    }
+
+    //Borrar materia de la Edicion
+    function BorrarMateriaEditada(id) {
+        $.post('@Url.Action("BorrarMateriaEditada", "AdmProyeccion")', { Id: id, IdProyeccion: $("#id").val() }, (s) => {
+            switch (s.Tipo) {
+                case 1:
+                    ListarMateriasAgregadas();
+                    Listar(moduloseleccionado, estado);
+                    break;
+                case 2:
+                    Toast("warning", s.Msj);
+                    break;
+                case 3:
+                    Toast("error", s.Msj);
+                    break;
+            };
+        });
+    }
+
+    //Cargar Combo de Modulo
+    function CargarModulo() {
+         $.getJSON('@Url.Action("CargarModulo", "AdmProyeccion")', function (o) {
+             $("#idModulo").html("");
+             var opcion = "<option value='0'>Seleccione un módulo</option>";
+             $("#idModulo").append(opcion);
+             for (var i = 0; i < o.length; i++) {
+                opcion = "<option value=" + o[i].id + ">" + o[i].nombre + "</option>";
+                $("#idModulo").append(opcion);
+            };
+        });
+    }
+
+    //Cargar Caombo de Semestre
+    function CargarSemestre() {
+         $.getJSON('@Url.Action("CargarSemestre", "AdmProyeccion")', function (o) {
+            $("#idSemestre").html("");
+            var opcion = "<option value='0'>Seleccione un semestre</option>";
+             $("#idSemestre").append(opcion);
+            for (var i = 0; i < o.length; i++) {
+                opcion = "<option value=" + o[i].Id + ">" + o[i].Nombre + "</option>";
+                $("#idSemestre").append(opcion);
+            };
+        });
+    }
+
+    //Cargar Caombo de Turnos
+    function CargarTurnos() {
+         $.getJSON('@Url.Action("CargarTurnos", "AdmProyeccion")', function (o) {
+            $("#idTurno").html("");
+            var opcion = "<option value='0'>Seleccione un turno</option>";
+             $("#idTurno").append(opcion);
+            for (var i = 0; i < o.length; i++) {
+                opcion = "<option value=" + o[i].Id + ">" + o[i].Nombre + "</option>";
+                $("#idTurno").append(opcion);
+            };
+        });
+    }
+
+    //Buscar Materia
+    function BuscarMateria(nombreM) {
+        $.getJSON('@Url.Action("BuscarMateria", "AdmProyeccion")', { "nombreM": nombreM }, function (o) {
+            $("#ListarMaterias").html("");
+            for (var i = 0; i < o.length; i++) {
+                var opcion = "<li class='list-group-item list-group-item-action d-flex justify-content-between align-items-center dato-materia'  onclick='SeleccionarMateria(" + o[i].Id + ")' >" + o[i].Nombre + "<span class='badge bg-primary rounded-pill' >" + o[i].Sigla + "</span></li >";
+                $("#ListarMaterias").append(opcion);
+            };
+        });
+    }
+
+    //Ocultar Modal Principal
+    function OcultarModalPrincipal() {
+        $("#exampleModal").modal('hide');
+    }
+
+    //Mostrar Modal Principal
+    function MostrarModalPrincipal() {
+        $("#exampleModal").modal('show');
+    }
+
+</script>
+

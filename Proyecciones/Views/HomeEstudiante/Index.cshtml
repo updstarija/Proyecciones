@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<!--Alerta Traspaso-->
+<div id="alertTraspaso" class="alert alert-danger visually-hidden" role="alert">
+    <i class="fas fa-exclamation-triangle"></i> Estamos trabajando para ofrecerte una mejor experiencia en la proyección de materia, por el momento tendrá que elaborar su proyección de forma manual, le solicitamos que se comunique son su jefe de carrera.
+</div>
+
+<!--interfaz principal-->
+<h4 id="Titulo-Home">Malla Curricular</h4>
+<div class="card mb-3" id="Cuerpo-Home">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-8">
+                <select id="idCarrera" onchange="ListarMalla()" class="form-select">
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <ul class="list-group">
+                    <li class="list-group-item" style="color: #1e6f5c"><b>Materias Aprobadas</b></li>
+                    <li class="list-group-item" style="color: #8ab6d6; opacity: .8"><b>Materias Pendientes</b></li>
+                    <li class="list-group-item" style="color: #F0544A;"><b>Materias Reprobadas</b></li>
+                    <li id="idMateConva" class="list-group-item visually-hidden" style="color: #34495E"><b>Materias Convalidadas</b></li>
+                    <li class="list-group-item" style="color: #f0a500"><b>Materias en Boleta de Proyección</b></li>
+                </ul>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-12 table-responsive-sm">
+                <div class="d-flex justify-content-center">
+                    <div class="cargando-table spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div class="contenido-table">
+                    <table id="cabeceraMalla" width="100%" class="table">
+                        <!--Cuerpo malla curricular-->
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        CargarCarrera("@ViewBag.CI");
+        VerificarTraspaso();
+        $("#ModalRecuerdeQue").modal('show');
+    });
+
+    //Cargar Carrera
+    function CargarCarrera(ci) {
+        $.getJSON('@Url.Action("CargarCarrera", "Proyeccion")', { ci: ci }, function (o) {
+             $("#idCarrera").append(opcion);
+            for (var i = 0; i < o.length; i++) {
+                var opcion = "<option value=" + o[i].Id + ">" + o[i].Nombre + "</option>";
+                $("#idCarrera").append(opcion);
+            };
+            ListarMalla();
+        });
+    }
+
+    //Listar mmalla curricular
+    function ListarMalla() {
+        $(".cargando-table").show();
+        var carre = $("#idCarrera").val();
+        $.getJSON('@Url.Action("ListarMalla", "HomeEstudiante")', { carrera: carre }, function (o) {
+            $(".contenido-table").hide();
+            $("#cabeceraMalla").html(o);
+            $(".cargando-table").hide();
+            $(".contenido-table").show();
+            MarcarMateriasReprobadas(carre);
+            MarcarMateriasElectivasAprobadas(carre);
+            MarcarMateriasAprobadas(carre);
+            MarcarMateriasEnBoleta(carre);
+            MarcarMateriasElectivasEnBoleta(carre);
+            VerificarTraspaso(carre);
+            MateriasElectivasConvalidadas(carre);
+        });
+    }
+
+    //Marcar Materias Aprobadas
+    function MarcarMateriasAprobadas(carre) {
+        $.getJSON('@Url.Action("MarcarMateriasAprobadas", "HomeEstudiante")', { carrera: carre }, function (o) {
+            for (var i = 0; i < o.length; i++) {
+                $("#" + o[i].Id + "").removeClass('materiaMallaPendiente');
+                $("#" + o[i].Id + "").removeClass('materiaMallaBoleta');
+                $("#" + o[i].Id + "").addClass('materiaMallaAprobada');
+            };
+        });
+    }
+
+    //Marcar Materias Electivas Aprobadas
+    function MarcarMateriasElectivasAprobadas(carre) {
+        $.getJSON('@Url.Action("MarcarMateriasElectivasAprobadas", "HomeEstudiante")', { carrera: carre }, function (o) {
+            for (var i = 0; i < o.length; i++) {
+                $("#" + o[i].Id + "").removeClass('materiaMallaPendiente');
+                $("#" + o[i].Id + "").removeClass('materiaMallaBoleta');
+                $("#" + o[i].Id + "").addClass('materiaMallaAprobada');
+            };
+        });
+    }
+
+    //Marcar Materias Reprobadas
+    function MarcarMateriasReprobadas(carre) {
+        $.getJSON('@Url.Action("MarcarMateriasReprobadas", "HomeEstudiante")', { carrera: carre }, function (o) {
+            for (var i = 0; i < o.length; i++) {
+                $("#" + o[i].Id + "").removeClass('materiaMallaPendiente');
+                $("#" + o[i].Id + "").removeClass('materiaMallaBoleta');
+                $("#" + o[i].Id + "").addClass('materiaReprobada');
+            };
+        });
+    }
+
+    //Marcar Materias Electivas Reprobadas
+    function MarcarMateriasElectivasReprobadas(carre) {
+        $.getJSON('@Url.Action("MarcarMateriasElectivasReprobadas", "HomeEstudiante")', { carrera: carre }, function (o) {
+            for (var i = 0; i < o.length; i++) {
+                $("#" + o[i].Id + "").removeClass('materiaMallaPendiente');
+                $("#" + o[i].Id + "").removeClass('materiaMallaBoleta');
+                $("#" + o[i].Id + "").addClass('materiaReprobada');
+            };
+        });
+    }
+
+    //Marcar Materias que se encuentran en la Boleta de Proyeccion
+    function MarcarMateriasEnBoleta(carre) {
+        $.getJSON('@Url.Action("MarcarMateriasEnBoleta", "HomeEstudiante")', { carrera: carre }, function (o) {
+            for (var i = 0; i < o.length; i++) {
+                $("#" + o[i].Id + "").removeClass('materiaReprobada');
+                $("#" + o[i].Id + "").removeClass('materiaMallaPendiente');
+                $("#" + o[i].Id + "").addClass('materiaMallaBoleta');
+            };
+        });
+    }
+
+    //Marcar Materias Electivas que se encuentran en la Boleta de Proyeccion
+    function MarcarMateriasElectivasEnBoleta(carre) {
+        $.getJSON('@Url.Action("MarcarMateriasElectivasEnBoleta", "HomeEstudiante")', { carrera: carre }, function (o) {
+            for (var i = 0; i < o.length; i++) {
+                $("#" + o[i].Id + "").removeClass('materiaReprobada');
+                $("#" + o[i].Id + "").removeClass('materiaMallaPendiente');
+                $("#" + o[i].Id + "").addClass('materiaMallaBoleta');
+            };
+        });
+    }
+
+    //Verificar Traspaso y marcar materias convalidadas
+    function VerificarTraspaso(carre) {
+        $.getJSON('@Url.Action("VerificarTraspaso", "HomeEstudiante")', { carrera: carre }, function (o) {
+            if (o.length > 0) {
+                //$("#alertTraspaso").removeClass('visually-hidden');
+                $("#idMateConva").removeClass('visually-hidden');
+                //$("#Cuerpo-Home").addClass('visually-hidden');
+                //$("#Titulo-Home").addClass('visually-hidden');
+                for (var i = 0; i < o.length; i++) {
+                    $("#" + o[i].Id + "").removeClass('materiaReprobada');
+                    $("#" + o[i].Id + "").removeClass('materiaMallaPendiente');
+                    $("#" + o[i].Id + "").addClass('materiaConvalidada');
+                };
+            }
+        });
+    }
+
+    //Verificar Traspaso y marcar materias convalidadas
+    function MateriasElectivasConvalidadas(carre) {
+        $.getJSON('@Url.Action("MateriasElectivasConvalidadas", "HomeEstudiante")', { carrera: carre }, function (o) {
+            if (o.length > 0) {
+                for (var i = 0; i < o.length; i++) {
+                    $("#" + o[i].Id + "").removeClass('materiaReprobada');
+                    $("#" + o[i].Id + "").removeClass('materiaMallaPendiente');
+                    $("#" + o[i].Id + "").addClass('materiaConvalidada');
+                };
+            }
+        });
+    }
+
+</script>
